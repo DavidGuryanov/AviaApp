@@ -1,0 +1,42 @@
+.tabs__container {
+  //max-width: 502px;
+  //   height: 50px;
+  //   border: solid black 1px;
+  grid-area: tabs;
+  border-radius: 0px 5px 5px 0px;
+  //   display: flex;
+}
+.tabs__button {
+  width: 50%;
+  height: 50px;
+  background: #ffffff;
+  border: 1px solid #dfe5ec;
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #4a4a4a;
+  padding: 0px;
+  // border-radius: 0px 5px 5px 0px;
+}
+.tabs__button:focus {
+  outline: none;
+  //border: solid black 1px;
+}
+.button__cheap {
+  border-radius: 5px 0px 0px 5px;
+  border-right: none;
+}
+.button__fast {
+  border-radius: 0px 5px 5px 0px;
+  border-left: none;
+}
+.button__selected {
+  background: #2196f3;
+  color: #ffffff;
+}

@@ -33,9 +33,8 @@ const Tabs = ({ passedState, sortCheap, sortFast, transferAll }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log(state);
   return {
-    passedState: state,
+    passedState: { ...state.sort, ...state.filter },
   };
 };
 const mapDispatchToProps = (dispatch) => {

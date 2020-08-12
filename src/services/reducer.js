@@ -1,7 +1,26 @@
-const reducer = (state, action) => {
+import { combineReducers } from 'redux';
+
+function sort(state, action) {
   if (state === undefined) {
     return {
       sort: 'cheap',
+    };
+  }
+
+  // const { sort } = state;
+  switch (action.type) {
+    case 'SORT_CHEAP':
+      return { ...state, sort: 'cheap' };
+    case 'SORT_FAST':
+      return { ...state, sort: 'fast' };
+    default:
+      return state;
+  }
+}
+
+function filter(state, action) {
+  if (state === undefined) {
+    return {
       transfer: {
         all: false,
         none: false,
@@ -10,16 +29,9 @@ const reducer = (state, action) => {
         three: false,
       },
     };
-    // return 0;
   }
   const { all, none, one, two, three } = state.transfer;
-  // const { sort } = state;
   switch (action.type) {
-    case 'SORT_CHEAP':
-      return { ...state, sort: 'cheap' };
-    case 'SORT_FAST':
-      return { ...state, sort: 'fast' };
-
     case 'TRANSFER_ALL':
       return { ...state, transfer: { all: true, none: true, one: true, two: true, three: true } };
     case 'TRANSFER_ALL_REMOVE':
@@ -72,6 +84,34 @@ const reducer = (state, action) => {
     default:
       return state;
   }
-};
+}
+
+function getTickets(
+  state = { isFetching: false, id: '', lastUpdated: '', tickets: [], stop: false, error: false },
+  action
+) {
+  switch (action.type) {
+    case 'REQUEST_ID':
+      return { ...state, isFetching: true };
+    case 'RECIEVE_ID':
+      return { ...state, isFetching: false, id: action.result, lastUpdated: action.receivedAt };
+    case 'RECIEVE_TICKETS': {
+      const newTickets = state.tickets;
+      newTickets.push(...action.tickets.tickets);
+      return { ...state, isFetching: false, tickets: newTickets, stop: action.tickets.stop };
+    }
+    case 'ERROR': {
+      return { ...state, isFetching: false, error: action.error };
+    }
+    default:
+      return state;
+  }
+}
+
+const reducer = combineReducers({
+  sort,
+  filter,
+  getTickets,
+});
 
 export default reducer;

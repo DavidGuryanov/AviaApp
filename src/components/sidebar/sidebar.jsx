@@ -83,8 +83,9 @@ const Sidebar = ({
 };
 
 const mapStateToProps = (state) => {
+  console.log(state);
   return {
-    passedState: state,
+    passedState: { ...state.sort, ...state.filter },
   };
 };
 const mapDispatchToProps = (dispatch) => {

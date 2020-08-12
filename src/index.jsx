@@ -1,26 +1,31 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
 import * as actions from './services/actions';
 import styles from './index.module.scss';
 
 import App from './components/app/app';
 import reducer from './services/reducer';
 
-const store = createStore(reducer);
-// const sortDispatch = () =>
+const composeEnhancers =
+  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
 
+const enhancer = composeEnhancers(applyMiddleware(thunkMiddleware));
+const store = createStore(reducer, enhancer);
+const { dispatch, getState, subscribe } = store;
+
+dispatch(actions.fetchData());
 const Index = () => {
-  // console.log(store.getState());
-  // store.dispatch(actions.sortCheap());
-  // // console.log(actions.sort);
-  // console.log(store.getState());
-  // store.dispatch(actions.transferAll());
-  // console.log(store.getState());
   return (
     <div className={styles.index}>
       <App />
+      <button onClick={(e) => dispatch(actions.fetchID())}>ID</button>
+      <button onClick={() => dispatch(actions.fetchTickets(store.getState().getTickets.id))}>FETCH TICKETS</button>
+      <button onClick={() => dispatch(actions.fetchData())}>FETCH</button>
     </div>
   );
 };

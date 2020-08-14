@@ -8,6 +8,7 @@ const { parseFromTimeZone, formatToTimeZone } = require('date-fns-timezone');
 const s7Logo = require('./S7_Logo.png');
 
 const Ticket = (props) => {
+  // console.log(props);
   const { ticket } = props;
   const { price, carrier, segments } = ticket;
   function numberWithSpaces(num) {

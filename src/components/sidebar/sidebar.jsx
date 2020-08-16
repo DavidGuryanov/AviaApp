@@ -1,24 +1,32 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Spin, Result } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
 import styles from './sidebar.module.scss';
 import * as actions from '../../services/actions';
+import './antd.css';
 
-const Sidebar = ({
-  passedState,
-  transferAll,
-  transferAllRemove,
-  transferNone,
-  transferNoneRemove,
-  transferOne,
-  transferOneRemove,
-  transferTwo,
-  transferTwoRemove,
-  transferThree,
-  transferThreeRemove,
-}) => {
+const Sidebar = (props) => {
+  const {
+    passedState,
+    transferAll,
+    transferAllRemove,
+    transferNone,
+    transferNoneRemove,
+    transferOne,
+    transferOneRemove,
+    transferTwo,
+    transferTwoRemove,
+    transferThree,
+    transferThreeRemove,
+    isFetching,
+  } = props;
+  const loading = isFetching.isFetching;
+  const { error } = isFetching;
   const { all, none, one, two, three } = passedState.transfer;
-  return (
+  const bar = (
     <div className={styles.filter__container}>
       <h3 className={styles.filter__header}>Количество пересадок</h3>
       <fieldset>
@@ -80,11 +88,31 @@ const Sidebar = ({
       </fieldset>
     </div>
   );
+  const antIcon = <LoadingOutlined style={{ fontSize: 150 }} spin />;
+  if (loading) {
+    return (
+      <div className={styles.test}>
+        {bar}
+
+        <Spin indicator={antIcon} size="large" style={{ color: '#2196f3' }} />
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <div className={styles.test}>
+        {bar}
+        <Result status="error" title="Oops. An Error occured" subTitle="Try reloading the page." />
+      </div>
+    );
+  }
+
+  return <div className={styles.test}>{bar}</div>;
 };
 
 const mapStateToProps = (state) => {
-  // console.log(state);
   return {
+    isFetching: { ...state.getTickets },
     passedState: { ...state.sort, ...state.filter },
   };
 };
@@ -118,4 +146,52 @@ const mapDispatchToProps = (dispatch) => {
     transferThreeRemove,
   };
 };
+
+Sidebar.propTypes = {
+  isFetching: PropTypes.shape({
+    isFetching: PropTypes.bool,
+    id: PropTypes.string,
+    tickets: PropTypes.arrayOf(PropTypes.object),
+    stop: PropTypes.bool,
+    error: PropTypes.bool,
+  }).isRequired,
+  passedState: PropTypes.shape({
+    sort: PropTypes.string,
+    transfer: PropTypes.shape({
+      all: PropTypes.bool,
+      none: PropTypes.bool,
+      one: PropTypes.bool,
+      two: PropTypes.bool,
+      three: PropTypes.bool,
+    }),
+  }),
+  transferAll: PropTypes.func,
+  transferAllRemove: PropTypes.func,
+  transferNone: PropTypes.func,
+  transferNoneRemove: PropTypes.func,
+  transferOne: PropTypes.func,
+  transferOneRemove: PropTypes.func,
+  transferTwo: PropTypes.func,
+  transferTwoRemove: PropTypes.func,
+  transferThree: PropTypes.func,
+  transferThreeRemove: PropTypes.func,
+};
+
+Sidebar.defaultProps = {
+  passedState: {
+    sort: 'cheap',
+    transfer: { all: true, none: true, one: true, two: true, three: true },
+  },
+  transferAll: () => {},
+  transferAllRemove: () => {},
+  transferNone: () => {},
+  transferNoneRemove: () => {},
+  transferOne: () => {},
+  transferOneRemove: () => {},
+  transferTwo: () => {},
+  transferTwoRemove: () => {},
+  transferThree: () => {},
+  transferThreeRemove: () => {},
+};
+
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

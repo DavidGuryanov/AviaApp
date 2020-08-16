@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
-
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './ticket.module.scss';
 
-const { listTimeZones } = require('timezone-support');
-const { parseFromTimeZone, formatToTimeZone } = require('date-fns-timezone');
-const s7Logo = require('./S7_Logo.png');
+const { formatToTimeZone } = require('date-fns-timezone');
 
 const Ticket = (props) => {
-  // console.log(props);
   const { ticket } = props;
   const { price, carrier, segments } = ticket;
   function numberWithSpaces(num) {
@@ -36,7 +32,6 @@ const Ticket = (props) => {
       .toString();
     return res;
   };
-
   const getInterval = (startTime, minutes) => {
     const format = 'HH:mm';
     const startDate = new Date(startTime);
@@ -44,14 +39,7 @@ const Ticket = (props) => {
     const finishDate = new Date(+startDate + minutes * 60000);
     const finishDateUtc = formatToTimeZone(finishDate, format, { timeZone: 'Etc/UTC' });
     return `${startDateUtc} - ${finishDateUtc}`;
-    // const test = format(utc, 'HH:mm');
-    // console.log(test);
   };
-  // console.log(listTimeZones());
-  // const startDate = new Date(firstSegment.date);
-  // console.log(startDate.toUTCString());
-  getInterval(firstSegment.date, firstSegment.duration);
-  // console.log(test);
 
   const formatNumberOfStops = (arr) => {
     switch (arr.length) {
@@ -72,7 +60,11 @@ const Ticket = (props) => {
     <div className={styles.ticket}>
       <div className={styles.header}>
         <h4 className={styles.header__price}>{numberWithSpaces(price)} Р</h4>
-        <img src={s7Logo} alt="s7 logo" className={styles.header__company} />
+        <img
+          src={`http://pics.avs.io/99/36/${carrier}.png`}
+          alt={`${carrier} logo`}
+          className={styles.header__company}
+        />
       </div>
       <div className={styles.route_info}>
         <div className={styles.route_direction}>
@@ -109,6 +101,14 @@ const Ticket = (props) => {
       </div>
     </div>
   );
+};
+
+Ticket.propTypes = {
+  ticket: PropTypes.shape({
+    price: PropTypes.number,
+    carrier: PropTypes.string,
+    segments: PropTypes.arrayOf(PropTypes.object),
+  }).isRequired,
 };
 
 export default Ticket;

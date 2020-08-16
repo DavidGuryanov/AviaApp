@@ -16,16 +16,13 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunkMiddleware));
 const store = createStore(reducer, enhancer);
-const { dispatch, getState, subscribe } = store;
+const { dispatch } = store;
 
 dispatch(actions.fetchData());
 const Index = () => {
   return (
     <div className={styles.index}>
       <App />
-      <button onClick={(e) => dispatch(actions.fetchID())}>ID</button>
-      <button onClick={() => dispatch(actions.fetchTickets(store.getState().getTickets.id))}>FETCH TICKETS</button>
-      <button onClick={() => dispatch(actions.fetchData())}>FETCH</button>
     </div>
   );
 };

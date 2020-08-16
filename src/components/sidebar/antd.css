@@ -1,0 +1,76 @@
+.ant-result-icon {
+  margin-bottom: 24px;
+  text-align: center;
+}
+.ant-result-error .ant-result-icon > .anticon {
+  color: #ff4d4f;
+}
+.ant-result-icon > .anticon {
+  font-size: 72px;
+}
+.anticon {
+  display: inline-block;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ant-result-title {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 24px;
+  line-height: 1.8;
+  text-align: center;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+}
+.ant-result-subtitle {
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+}
+.ant-spin-spinning {
+  position: static;
+  display: block;
+  opacity: 1;
+}
+
+.ant-spin-dot {
+  position: relative;
+  display: block;
+  font-size: 20px;
+  width: 1em;
+  height: 1em;
+  margin: 0 auto;
+}
+.anticon svg {
+  display: inline-block;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+@media (max-width: 730px) {
+  .ant-result {
+    margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+  }
+  .ant-result-title {
+    font-size: 20px;
+  }
+  .ant-result-subtitle {
+    font-size: 14px;
+  }
+  .ant-spin-spinning {
+    margin: auto;
+  }
+}

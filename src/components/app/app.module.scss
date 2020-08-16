@@ -2,21 +2,26 @@
   display: grid;
   max-width: 800px;
   margin: 0 auto;
-  // grid-template-rows: 1fr 0.27fr 1fr 1fr 1fr 1fr;
-  // grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(auto-fill, minmax(150px, 1fr));
-  grid-template-columns: 30% 70%;
+  grid-template-rows: 160px 50px repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: 30% 67%;
   grid-gap: 20px;
-  // grid-template-areas:
-  //   'header header header'
-  //   'sidebar tabs tabs'
-  //   'sidebar ticket ticket'
-  //   'sidebar ticket ticket'
-  //   'sidebar ticket ticket'
-  //   'sidebar ticket ticket'
-  //   'sidebar ticket ticket';
   grid-template-areas:
     'header header'
     'sidebar tabs'
     'sidebar ticket';
+}
+@media (max-width: 730px) {
+  .app__container {
+    display: grid;
+    max-width: 800px;
+    margin: 0 auto;
+    grid-template-rows: 160px 50px 252px repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: 100%;
+    grid-gap: 20px;
+    grid-template-areas:
+      'header'
+      'tabs'
+      'sidebar'
+      'ticket';
+  }
 }

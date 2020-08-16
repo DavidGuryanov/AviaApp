@@ -22,11 +22,11 @@ function filter(state, action) {
   if (state === undefined) {
     return {
       transfer: {
-        all: false,
-        none: false,
-        one: false,
-        two: false,
-        three: false,
+        all: true,
+        none: true,
+        one: true,
+        two: true,
+        three: true,
       },
     };
   }
@@ -86,22 +86,22 @@ function filter(state, action) {
   }
 }
 
-function getTickets(
-  state = { isFetching: false, id: '', lastUpdated: '', tickets: [], stop: false, error: false },
-  action
-) {
+function getTickets(state = { isFetching: false, id: '', tickets: [], stop: false, error: false }, action) {
   switch (action.type) {
     case 'REQUEST_ID':
       return { ...state, isFetching: true };
     case 'RECIEVE_ID':
-      return { ...state, isFetching: false, id: action.result, lastUpdated: action.receivedAt };
+      return { ...state, isFetching: true, id: action.result };
     case 'RECIEVE_TICKETS': {
       const newTickets = state.tickets;
       newTickets.push(...action.tickets.tickets);
-      return { ...state, isFetching: false, tickets: newTickets, stop: action.tickets.stop };
+      if (action.tickets.stop) {
+        return { ...state, isFetching: false, tickets: newTickets, stop: action.tickets.stop };
+      }
+      return { ...state, isFetching: true, tickets: newTickets, stop: action.tickets.stop };
     }
     case 'ERROR': {
-      return { ...state, isFetching: false, error: action.error };
+      return { ...state, isFetching: false, error: true };
     }
     default:
       return state;

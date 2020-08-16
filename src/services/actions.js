@@ -57,10 +57,13 @@ export const errorOccured = (errorObj) => {
 export function fetchID() {
   return (dispatch) => {
     dispatch(requestID());
-    return fetch('https://front-test.beta.aviasales.ru/search')
-      .then((response) => response.json())
-      .then((json) => dispatch(recieveID(json.searchId)))
-      .then(() => dispatch(fetchData()));
+    return (
+      fetch('https://front-test.beta.aviasales.ru/search')
+        .then((response) => response.json())
+        .then((json) => dispatch(recieveID(json.searchId)))
+        // eslint-disable-next-line no-use-before-define
+        .then(() => dispatch(fetchData()))
+    );
   };
 }
 export const recieveTickets = (ticket) => {
@@ -70,8 +73,9 @@ export const recieveTickets = (ticket) => {
   };
 };
 export function fetchTickets(id) {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch(requestID());
+    // eslint-disable-next-line consistent-return
     return fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${id}`).then((response) => {
       if (!response.ok) {
         dispatch(errorOccured(response.status));
@@ -82,13 +86,15 @@ export function fetchTickets(id) {
         .then((json) => {
           dispatch(recieveTickets(json));
         })
-        .then(() => dispatch(fetchData(id)));
+        // eslint-disable-next-line no-use-before-define
+        .then(() => dispatch(fetchData()));
     });
   };
 }
 
-function shouldFetchTickets(state, id) {
-  const { tickets, stop, isFetching } = state.getTickets;
+// eslint-disable-next-line consistent-return
+function shouldFetchTickets(state) {
+  const { stop, isFetching } = state.getTickets;
   if (!stop) {
     return true;
   }
@@ -102,7 +108,7 @@ export function fetchData() {
     if (!getState().getTickets.id) {
       return dispatch(fetchID());
     }
-    if (shouldFetchTickets(getState(), getState().getTickets.id)) {
+    if (shouldFetchTickets(getState())) {
       return dispatch(fetchTickets(getState().getTickets.id));
     }
     return Promise.resolve();

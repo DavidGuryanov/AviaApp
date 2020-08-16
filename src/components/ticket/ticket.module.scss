@@ -48,6 +48,7 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: #a0b0b9;
+  width: 103px;
 }
 .info_description {
   margin: 0;
@@ -57,4 +58,14 @@
   font-size: 14px;
   line-height: 21px;
   color: #4a4a4a;
+}
+@media (max-width: 730px) {
+  .route_info {
+    margin: 00px 10px 00px 10px;
+  }
+}
+@media (max-width: 350px) {
+  .info_header {
+    width: unset;
+  }
 }

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styles from './tabs.module.scss';
 import * as actions from '../../services/actions';
 
@@ -8,7 +9,7 @@ const classNames = require('classnames/bind');
 
 const bindedClasses = classNames.bind(styles);
 
-const Tabs = ({ passedState, sortCheap, sortFast, transferAll }) => {
+const Tabs = ({ passedState, sortCheap, sortFast }) => {
   const firstTabClasses = bindedClasses({
     tabs__button: true,
     button__cheap: true,
@@ -44,6 +45,26 @@ const mapDispatchToProps = (dispatch) => {
     sortFast,
     transferAll,
   };
+};
+
+Tabs.propTypes = {
+  passedState: PropTypes.shape({
+    sort: PropTypes.string,
+    transfer: PropTypes.shape({
+      all: PropTypes.bool,
+      none: PropTypes.bool,
+      one: PropTypes.bool,
+      two: PropTypes.bool,
+      three: PropTypes.bool,
+    }),
+  }).isRequired,
+  sortCheap: PropTypes.func,
+  sortFast: PropTypes.func,
+};
+
+Tabs.defaultProps = {
+  sortCheap: () => {},
+  sortFast: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tabs);

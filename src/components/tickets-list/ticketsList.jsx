@@ -137,6 +137,15 @@ const TicketsList = (props) => {
       </div>
     );
   }
+  if (arr.length === 0) {
+    return (
+      <div className={styles.test}>
+        <div className={styles.notfound_container}>
+          <p className={styles.notfound_message}>Рейсов, подходящих под заданные фильтры, не найдено</p>
+        </div>
+      </div>
+    );
+  }
   return <div className={styles.test}>{show}</div>;
 };
 

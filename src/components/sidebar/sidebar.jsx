@@ -100,7 +100,7 @@ const Sidebar = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    isFetching: { ...state.getTickets },
+    isFetching: { ...state.reducerGetTickets },
     passedState: { ...state.reducerSort, ...state.reducerFilter },
   };
 };

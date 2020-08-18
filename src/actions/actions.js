@@ -4,36 +4,36 @@ export const sortCheap = () => {
 export const sortFast = () => {
   return { type: 'SORT_FAST' };
 };
-export const transferAll = () => {
-  return { type: 'TRANSFER_ALL' };
+export const transferAll = (bool) => {
+  return { type: 'TRANSFER_ALL', payload: bool };
 };
-export const transferAllRemove = () => {
-  return { type: 'TRANSFER_ALL_REMOVE' };
+// export const transferAllRemove = () => {
+//   return { type: 'TRANSFER_ALL_REMOVE' };
+// };
+export const transferNone = (bool) => {
+  return { type: 'TRANSFER_NONE', payload: bool };
 };
-export const transferNone = () => {
-  return { type: 'TRANSFER_NONE' };
+// export const transferNoneRemove = () => {
+//   return { type: 'TRANSFER_NONE_REMOVE' };
+// };
+export const transferOne = (bool) => {
+  return { type: 'TRANSFER_ONE', payload: bool };
 };
-export const transferNoneRemove = () => {
-  return { type: 'TRANSFER_NONE_REMOVE' };
+// export const transferOneRemove = () => {
+//   return { type: 'TRANSFER_ONE_REMOVE' };
+// };
+export const transferTwo = (bool) => {
+  return { type: 'TRANSFER_TWO', payload: bool };
 };
-export const transferOne = () => {
-  return { type: 'TRANSFER_ONE' };
+// export const transferTwoRemove = () => {
+//   return { type: 'TRANSFER_TWO_REMOVE' };
+// };
+export const transferThree = (bool) => {
+  return { type: 'TRANSFER_THREE', payload: bool };
 };
-export const transferOneRemove = () => {
-  return { type: 'TRANSFER_ONE_REMOVE' };
-};
-export const transferTwo = () => {
-  return { type: 'TRANSFER_TWO' };
-};
-export const transferTwoRemove = () => {
-  return { type: 'TRANSFER_TWO_REMOVE' };
-};
-export const transferThree = () => {
-  return { type: 'TRANSFER_THREE' };
-};
-export const transferThreeRemove = () => {
-  return { type: 'TRANSFER_THREE_REMOVE' };
-};
+// export const transferThreeRemove = () => {
+//   return { type: 'TRANSFER_THREE_REMOVE' };
+// };
 export const requestID = () => {
   return {
     type: 'REQUEST_ID',
@@ -94,7 +94,7 @@ export function fetchTickets(id) {
 
 // eslint-disable-next-line consistent-return
 function shouldFetchTickets(state) {
-  const { stop, isFetching } = state.getTickets;
+  const { stop, isFetching } = state.reducerGetTickets;
   if (!stop) {
     return true;
   }
@@ -105,11 +105,11 @@ function shouldFetchTickets(state) {
 
 export function fetchData() {
   return (dispatch, getState) => {
-    if (!getState().getTickets.id) {
+    if (!getState().reducerGetTickets.id) {
       return dispatch(fetchID());
     }
     if (shouldFetchTickets(getState())) {
-      return dispatch(fetchTickets(getState().getTickets.id));
+      return dispatch(fetchTickets(getState().reducerGetTickets.id));
     }
     return Promise.resolve();
   };

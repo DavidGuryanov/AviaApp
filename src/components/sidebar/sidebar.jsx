@@ -5,24 +5,12 @@ import { Spin, Result } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import styles from './sidebar.module.scss';
-import * as actions from '../../services/actions';
+import * as actions from '../../actions/actions';
 import './antd.css';
 
 const Sidebar = (props) => {
-  const {
-    passedState,
-    transferAll,
-    transferAllRemove,
-    transferNone,
-    transferNoneRemove,
-    transferOne,
-    transferOneRemove,
-    transferTwo,
-    transferTwoRemove,
-    transferThree,
-    transferThreeRemove,
-    isFetching,
-  } = props;
+  const { passedState, transferAll, transferNone, transferOne, transferTwo, transferThree, isFetching } = props;
+
   const loading = isFetching.isFetching;
   const { error } = isFetching;
   const { all, none, one, two, three } = passedState.transfer;
@@ -35,7 +23,7 @@ const Sidebar = (props) => {
             type="checkbox"
             className={styles.filter__checkbox}
             checked={all}
-            onChange={(evt) => (evt.target.checked ? transferAll() : transferAllRemove())}
+            onChange={(evt) => (evt.target.checked ? transferAll(true) : transferAll(false))}
           />
           <span className={styles.filter__custom_checkbox} />
           <p className={styles.filter__input_text}>Все</p>
@@ -46,7 +34,7 @@ const Sidebar = (props) => {
             type="checkbox"
             className={styles.filter__checkbox}
             checked={none}
-            onChange={(evt) => (evt.target.checked ? transferNone() : transferNoneRemove())}
+            onChange={(evt) => (evt.target.checked ? transferNone(true) : transferNone(false))}
           />
           <span className={styles.filter__custom_checkbox} />
           <p className={styles.filter__input_text}>Без пересадок</p>
@@ -57,7 +45,7 @@ const Sidebar = (props) => {
             type="checkbox"
             className={styles.filter__checkbox}
             checked={one}
-            onChange={(evt) => (evt.target.checked ? transferOne() : transferOneRemove())}
+            onChange={(evt) => (evt.target.checked ? transferOne(true) : transferOne(false))}
           />
           <span className={styles.filter__custom_checkbox} />
           <p className={styles.filter__input_text}>1 пересадка</p>
@@ -68,7 +56,7 @@ const Sidebar = (props) => {
             type="checkbox"
             className={styles.filter__checkbox}
             checked={two}
-            onChange={(evt) => (evt.target.checked ? transferTwo() : transferTwoRemove())}
+            onChange={(evt) => (evt.target.checked ? transferTwo(true) : transferTwo(false))}
           />
           <span className={styles.filter__custom_checkbox} />
           <p className={styles.filter__input_text}>2 пересадки</p>
@@ -79,7 +67,7 @@ const Sidebar = (props) => {
             type="checkbox"
             className={styles.filter__checkbox}
             checked={three}
-            onChange={(evt) => (evt.target.checked ? transferThree() : transferThreeRemove())}
+            onChange={(evt) => (evt.target.checked ? transferThree(true) : transferThree(false))}
           />
           <span className={styles.filter__custom_checkbox} />
           <p className={styles.filter__input_text}>3 пересадки</p>
@@ -113,7 +101,7 @@ const Sidebar = (props) => {
 const mapStateToProps = (state) => {
   return {
     isFetching: { ...state.getTickets },
-    passedState: { ...state.sort, ...state.filter },
+    passedState: { ...state.reducerSort, ...state.reducerFilter },
   };
 };
 const mapDispatchToProps = (dispatch) => {
@@ -121,29 +109,19 @@ const mapDispatchToProps = (dispatch) => {
     sortCheap,
     sortFast,
     transferAll,
-    transferAllRemove,
     transferNone,
-    transferNoneRemove,
     transferOne,
-    transferOneRemove,
     transferTwo,
-    transferTwoRemove,
     transferThree,
-    transferThreeRemove,
   } = bindActionCreators(actions, dispatch);
   return {
     sortCheap,
     sortFast,
     transferAll,
-    transferAllRemove,
     transferNone,
-    transferNoneRemove,
     transferOne,
-    transferOneRemove,
     transferTwo,
-    transferTwoRemove,
     transferThree,
-    transferThreeRemove,
   };
 };
 
@@ -166,15 +144,10 @@ Sidebar.propTypes = {
     }),
   }),
   transferAll: PropTypes.func,
-  transferAllRemove: PropTypes.func,
   transferNone: PropTypes.func,
-  transferNoneRemove: PropTypes.func,
   transferOne: PropTypes.func,
-  transferOneRemove: PropTypes.func,
   transferTwo: PropTypes.func,
-  transferTwoRemove: PropTypes.func,
   transferThree: PropTypes.func,
-  transferThreeRemove: PropTypes.func,
 };
 
 Sidebar.defaultProps = {
@@ -183,15 +156,10 @@ Sidebar.defaultProps = {
     transfer: { all: true, none: true, one: true, two: true, three: true },
   },
   transferAll: () => {},
-  transferAllRemove: () => {},
   transferNone: () => {},
-  transferNoneRemove: () => {},
   transferOne: () => {},
-  transferOneRemove: () => {},
   transferTwo: () => {},
-  transferTwoRemove: () => {},
   transferThree: () => {},
-  transferThreeRemove: () => {},
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

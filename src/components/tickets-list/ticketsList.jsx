@@ -65,28 +65,16 @@ const TicketsList = (props) => {
     arr = ticketsToShow
       .sort(comparePrice)
       .filter((el) => {
-        let oneN;
-        let twoN;
-        let threeN;
-        let noneN;
-        if (one) {
-          oneN = 1;
+        if (one && el.segments[0].stops.length <= 1 && el.segments[1].stops.length <= 1) {
+          return true;
         }
-        if (two) {
-          twoN = 2;
+        if (two && el.segments[0].stops.length <= 2 && el.segments[1].stops.length <= 2) {
+          return true;
         }
-        if (three) {
-          threeN = 3;
+        if (three && el.segments[0].stops.length <= 3 && el.segments[1].stops.length <= 3) {
+          return true;
         }
-        if (none) {
-          noneN = 0;
-        }
-        if (
-          el.segments[0].stops.length === oneN ||
-          el.segments[0].stops.length === twoN ||
-          el.segments[0].stops.length === threeN ||
-          el.segments[0].stops.length === noneN
-        ) {
+        if (none && el.segments[0].stops.length === 0 && el.segments[1].stops.length === 0) {
           return true;
         }
         return false;
@@ -151,9 +139,9 @@ const TicketsList = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    tickets: { ...state.getTickets.tickets },
-    sort: state.sort.sort,
-    transfer: state.filter.transfer,
+    tickets: { ...state.reducerGetTickets.tickets },
+    sort: state.reducerSort.sort,
+    transfer: state.reducerFilter.transfer,
   };
 };
 

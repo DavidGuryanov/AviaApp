@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styles from './tabs.module.scss';
-import * as actions from '../../services/actions';
+import * as actions from '../../actions/actions';
 
 const classNames = require('classnames/bind');
 
@@ -35,7 +35,7 @@ const Tabs = ({ passedState, sortCheap, sortFast }) => {
 
 const mapStateToProps = (state) => {
   return {
-    passedState: { ...state.sort, ...state.filter },
+    passedState: { ...state.reducerSort, ...state.reducerFilter },
   };
 };
 const mapDispatchToProps = (dispatch) => {

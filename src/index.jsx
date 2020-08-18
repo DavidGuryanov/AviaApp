@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-import * as actions from './services/actions';
+import * as actions from './actions/actions';
 import styles from './index.module.scss';
 
 import App from './components/app/app';
-import reducer from './services/reducer';
+import reducer from './store/root-reducer';
 
 const composeEnhancers =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
